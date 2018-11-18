@@ -216,7 +216,8 @@ const CarpetListItem = React.memo(
                 infinite: true,
                 speed: 500,
                 slidesToShow: 1,
-                slidesToScroll: 1
+                slidesToScroll: 1,
+                lazyLoad: true
               }}
             >
               {carpet.fields.images.map((image, index) => (

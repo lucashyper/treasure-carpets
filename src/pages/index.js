@@ -67,7 +67,7 @@ const filterOptions = {
 };
 
 const mockCarpets = carpet => {
-  return Array.from({ length: 3 }).map((v, k) => {
+  return Array.from({ length: 100 }).map((v, k) => {
     let temp = { ...carpet };
     temp.id = k;
     temp.made_in = 1970 + Math.floor(Math.random() * 30);
@@ -146,14 +146,14 @@ export default ({ data }) => {
             disableHeight
             onResize={dimentions => {
               console.log(dimentions);
-              listRef.current.recomputeRowHeights();
+              listRef.current.recomputeRowHeights(); //default row is 0, which in turn causes all other row caches be wiped
               listRef.current.forceUpdateGrid();
             }}
           >
             {({ width }) => (
               <List
                 ref={listRef}
-                // key={width}
+                style={{ outline: "none" }} // remove blue border
                 autoHeight
                 height={height}
                 width={width}
@@ -162,11 +162,24 @@ export default ({ data }) => {
                 rowCount={filteredCarpets.length}
                 overscanRowCount={5}
                 rowHeight={({ index }) => {
-                  const imageWidth = width / 2 - 40;
-                  return (
-                    imageWidth /
-                    filteredCarpets[index].fields.images[0].normal.aspectRatio
-                  );
+                  const isMobile = window.matchMedia(
+                    "only screen and (max-width: 768px)"
+                  ).matches;
+                  const imageButtonWidth = 40;
+                  const imageAspectRatio =
+                    filteredCarpets[index].fields.images[0].normal.aspectRatio;
+
+                  const mobileRightSideHeight = 285;
+
+                  if (isMobile) {
+                    const imageWidth = width - 2 * imageButtonWidth;
+                    return (
+                      imageWidth / imageAspectRatio + mobileRightSideHeight
+                    );
+                  } else {
+                    const imageWidth = width / 2 - imageButtonWidth;
+                    return imageWidth / imageAspectRatio;
+                  }
                 }}
                 rowRenderer={({ index, style }) => {
                   return (
