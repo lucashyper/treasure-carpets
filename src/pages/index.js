@@ -6,14 +6,41 @@ import { List, WindowScroller, AutoSizer } from "react-virtualized";
 import DefaultLayout from "../layouts/DefaultLayout";
 import CarpetListItem from "../components/CarpetListItem";
 import Dropdown from "../components/Dropdown";
+import Modal from "../components/Modal";
 
 import { setConfig } from "react-hot-loader";
 setConfig({ pureSFC: true });
 
 injectGlobal`
-@import url('https://fonts.googleapis.com/css?family=Lato:900');
+/* Webfont: LatoLatin-Black */@font-face {
+  font-family: 'LatoLatinWebBlack';
+  src: url('fonts/LatoLatin/fonts/LatoLatin-Black.eot'); /* IE9 Compat Modes */
+  src: url('fonts/LatoLatin/fonts/LatoLatin-Black.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/LatoLatin/fonts/LatoLatin-Black.woff2') format('woff2'), /* Modern Browsers */
+       url('fonts/LatoLatin/fonts/LatoLatin-Black.woff') format('woff'), /* Modern Browsers */
+       url('fonts/LatoLatin/fonts/LatoLatin-Black.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+}
+`;
+
+injectGlobal`
 body {
-  font-family: Lato;
+  font-family: LatoLatinWebBlack;
+}
+.ReactModalPortal > * {
+  opacity: 0;
+}
+.ReactModal__Overlay {
+  transition: opacity 200ms ease-in-out;
+  background: rgba(0, 0, 0, 0.15);
+  &--after-open {
+      opacity: 1;
+  }
+  &--before-close {
+      opacity: 0;
+  }
 }
 `;
 
@@ -66,23 +93,17 @@ const filterOptions = {
   ]
 };
 
-const mockCarpets = carpet => {
-  return Array.from({ length: 100 }).map((v, k) => {
-    let temp = { ...carpet };
-    temp.id = k;
-    temp.made_in = 1970 + Math.floor(Math.random() * 30);
-    temp.density = 300 + Math.floor(Math.random() * 5) * 100;
-    temp.price = Math.floor(Math.random() * 150) * 1000;
-    temp.series = Math.random() > 0.5 ? "ISFAHAN" : "TABRIZ";
-    temp.series_cn = temp.series == "ISFAHAN" ? "伊斯法罕" : "大不里士";
-    temp.width = Math.floor(Math.random() * 50) * 10;
-    temp.height = Math.floor(Math.random() * 30) * 10;
+const mockCarpets = carpets => {
+  return carpets.map((v, k) => {
+    let temp = { ...v.node };
     temp.display_size = `${temp.width}x${temp.height}cm`;
     return temp;
   });
 };
 
 export default ({ data }) => {
+  const [modalCarpet, setModalCarpet] = useState(null);
+
   const listRef = useRef(null);
 
   const [selectedFilters, setselectedFilters] = useState({
@@ -90,111 +111,130 @@ export default ({ data }) => {
     price: 0,
     size: 0
   });
-  const carpets = useMemo(() => mockCarpets(data.carpets.edges[0].node), []);
 
-  const filteredCarpets = useMemo(
-    () => {
-      const seriesFilter =
-        filterOptions.seriesFilter[selectedFilters.series].value;
-      const priceFilter =
-        filterOptions.priceFilter[selectedFilters.price].value;
-      const sizeFilter = filterOptions.sizeFilter[selectedFilters.size].value;
-      return carpets.filter(carpet => {
-        if (seriesFilter.length != 0 && !seriesFilter.includes(carpet.series)) {
-          return false;
-        }
-        if (carpet.price < priceFilter.min || carpet.price >= priceFilter.max) {
-          return false;
-        }
+  const carpets = useMemo(() => mockCarpets(data.carpets.edges), []);
 
-        const size = (carpet.width * carpet.height) / 10000;
-        if (size < sizeFilter.min || size >= sizeFilter.max) {
-          return false;
-        }
+  const filteredCarpets = useMemo(() => {
+    const seriesFilter =
+      filterOptions.seriesFilter[selectedFilters.series].value;
+    const priceFilter = filterOptions.priceFilter[selectedFilters.price].value;
+    const sizeFilter = filterOptions.sizeFilter[selectedFilters.size].value;
+    return carpets.filter(carpet => {
+      if (seriesFilter.length != 0 && !seriesFilter.includes(carpet.series)) {
+        return false;
+      }
 
-        return true;
-      });
-    },
-    [selectedFilters.series, selectedFilters.price, selectedFilters.size]
-  );
+      const price = parseInt(carpet.price.replace(",", ""));
+      if (price < priceFilter.min || price >= priceFilter.max) {
+        return false;
+      }
+
+      const size = (carpet.width * carpet.height) / 10000;
+      if (size < sizeFilter.min || size >= sizeFilter.max) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [selectedFilters.series, selectedFilters.price, selectedFilters.size]);
 
   return (
-    <DefaultLayout>
-      <div className={FilterBarStyle}>
-        <Dropdown
-          labels={filterOptions.seriesFilter.map(item => item.label)}
-          selected={selectedFilters.series}
-          onSelect={i => setselectedFilters({ ...selectedFilters, series: i })}
+    <>
+      <Modal
+        carpet={modalCarpet}
+        isOpen={!!modalCarpet}
+        onRequestClose={() => setModalCarpet(null)}
+      />
+      <DefaultLayout>
+        <img
+          style={{ alignSelf: "center", maxWidth: 800, width: "100%" }}
+          src={"Logo/2x/Artboard 2@2x.png"}
         />
-        <Dropdown
-          labels={filterOptions.priceFilter.map(item => item.label)}
-          selected={selectedFilters.price}
-          onSelect={i => setselectedFilters({ ...selectedFilters, price: i })}
-        />
-        <Dropdown
-          labels={filterOptions.sizeFilter.map(item => item.label)}
-          selected={selectedFilters.size}
-          onSelect={i => setselectedFilters({ ...selectedFilters, size: i })}
-        />
-      </div>
-      {/* {filteredCarpets.map(carpet => (
+        <div className={FilterBarStyle}>
+          {/* <Dropdown
+            labels={filterOptions.seriesFilter.map(item => item.label)}
+            selected={selectedFilters.series}
+            onSelect={i =>
+              setselectedFilters({ ...selectedFilters, series: i })
+            }
+          /> */}
+          <Dropdown
+            labels={filterOptions.priceFilter.map(item => item.label)}
+            selected={selectedFilters.price}
+            onSelect={i => setselectedFilters({ ...selectedFilters, price: i })}
+          />
+          <Dropdown
+            labels={filterOptions.sizeFilter.map(item => item.label)}
+            selected={selectedFilters.size}
+            onSelect={i => setselectedFilters({ ...selectedFilters, size: i })}
+          />
+        </div>
+        {/* {filteredCarpets.map(carpet => (
         <CarpetListItem carpet={carpet} key={carpet.id} />
       ))} */}
-      <WindowScroller>
-        {({ height, isScrolling, onChildScroll, scrollTop }) => (
-          <AutoSizer
-            disableHeight
-            onResize={dimentions => {
-              console.log(dimentions);
-              listRef.current.recomputeRowHeights(); //default row is 0, which in turn causes all other row caches be wiped
-              listRef.current.forceUpdateGrid();
-            }}
-          >
-            {({ width }) => (
-              <List
-                ref={listRef}
-                style={{ outline: "none" }} // remove blue border
-                autoHeight
-                height={height}
-                width={width}
-                isScrolling={isScrolling}
-                onScroll={onChildScroll}
-                rowCount={filteredCarpets.length}
-                overscanRowCount={5}
-                rowHeight={({ index }) => {
-                  const isMobile = window.matchMedia(
-                    "only screen and (max-width: 768px)"
-                  ).matches;
-                  const imageButtonWidth = 40;
-                  const imageAspectRatio =
-                    filteredCarpets[index].fields.images[0].normal.aspectRatio;
+        <WindowScroller>
+          {({ height, isScrolling, onChildScroll, scrollTop }) => (
+            <AutoSizer
+              disableHeight
+              onResize={dimentions => {
+                console.log(dimentions);
+                listRef.current.recomputeRowHeights(); //default row is 0, which in turn causes all other row caches be wiped
+                listRef.current.forceUpdateGrid();
+              }}
+            >
+              {({ width }) => (
+                <List
+                  ref={listRef}
+                  style={{ outline: "none" }} // remove blue border
+                  autoHeight
+                  height={height}
+                  width={width}
+                  isScrolling={isScrolling}
+                  onScroll={onChildScroll}
+                  rowCount={filteredCarpets.length}
+                  overscanRowCount={4}
+                  rowHeight={({ index }) => {
+                    const isMobile = window.matchMedia(
+                      "only screen and (max-width: 768px)"
+                    ).matches;
+                    const imageButtonWidth = isMobile ? 30 : 40;
+                    const imageAspectRatio =
+                      filteredCarpets[index].fields.mainImage.normal
+                        .aspectRatio;
 
-                  const mobileRightSideHeight = 285;
+                    const mobileRightSideHeight = 285;
 
-                  if (isMobile) {
-                    const imageWidth = width - 2 * imageButtonWidth;
+                    if (isMobile) {
+                      const imageWidth = width - 2 * imageButtonWidth;
+                      return (
+                        imageWidth / imageAspectRatio + mobileRightSideHeight
+                      );
+                    } else {
+                      const imageWidth = width / 2 - imageButtonWidth;
+                      return Math.max(imageWidth / imageAspectRatio, 500);
+                    }
+                  }}
+                  rowRenderer={({ index, style }) => {
                     return (
-                      imageWidth / imageAspectRatio + mobileRightSideHeight
+                      <div style={style} key={filteredCarpets[index].id}>
+                        <CarpetListItem
+                          onOpenInfo={() =>
+                            setModalCarpet(filteredCarpets[index])
+                          }
+                          carpet={filteredCarpets[index]}
+                          key={width} // React Image Magnify fails when window is resized. That event is rare so we just reset the whole CarpetListItem (reseting just the magnify component didnt work for some reason);
+                        />
+                      </div>
                     );
-                  } else {
-                    const imageWidth = width / 2 - imageButtonWidth;
-                    return imageWidth / imageAspectRatio;
-                  }
-                }}
-                rowRenderer={({ index, style }) => {
-                  return (
-                    <div style={style} key={filteredCarpets[index].id}>
-                      <CarpetListItem carpet={filteredCarpets[index]} />
-                    </div>
-                  );
-                }}
-                scrollTop={scrollTop}
-              />
-            )}
-          </AutoSizer>
-        )}
-      </WindowScroller>
-    </DefaultLayout>
+                  }}
+                  scrollTop={scrollTop}
+                />
+              )}
+            </AutoSizer>
+          )}
+        </WindowScroller>
+      </DefaultLayout>
+    </>
   );
 };
 

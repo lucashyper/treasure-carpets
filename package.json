@@ -4,7 +4,8 @@
     "develop": "gatsby develop",
     "start": "npm run develop",
     "build": "gatsby build",
-    "serve": "gatsby serve"
+    "serve": "gatsby serve",
+    "clean": "rm -R .cache && rm -R public"
   },
   "dependencies": {
     "emotion": "^9.2.12",
@@ -18,11 +19,13 @@
     "gatsby-transformer-sharp": "^2.1.8",
     "nuka-carousel": "^4.4.3",
     "react": "16.7.0-alpha.2",
+    "react-aria-modal": "^4.0.0",
     "react-dom": "16.7.0-alpha.2",
     "react-emotion": "^9.2.12",
     "react-icons": "^3.2.2",
     "react-image-gallery": "^0.8.12",
     "react-image-magnify": "^2.7.4",
+    "react-modal": "^3.8.1",
     "react-ratio": "^0.1.5",
     "react-responsive-carousel": "^3.1.43",
     "react-slick": "^0.23.2",

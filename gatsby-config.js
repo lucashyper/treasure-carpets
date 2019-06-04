@@ -11,7 +11,12 @@ module.exports = {
     {
       resolve: `gatsby-transformer-sharp`
     },
-    "gatsby-transformer-excel",
+    {
+      resolve: `gatsby-transformer-excel`,
+      options: {
+        raw: false
+      }
+    },
     {
       resolve: `gatsby-plugin-emotion`,
       options: {}

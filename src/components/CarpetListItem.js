@@ -8,7 +8,6 @@ import ReactSlick from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import CarpetImage from "../../data/images/ny1-1.jpg";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 function mod(n, m) {
@@ -17,7 +16,7 @@ function mod(n, m) {
 
 const CarpetListItemStyle = css`
   color: #000000db;
-  font-family: Lato;
+  font-family: LatoLatinWebBlack;
   width: 100%;
   // height: 1000px;
   display: flex;
@@ -49,6 +48,9 @@ const CarpetListItemStyle = css`
 
     svg {
       cursor: pointer;
+      @media only screen and (max-width: 768px) {
+        width: 30px;
+      }
     }
   }
   .right {
@@ -92,7 +94,7 @@ const CarpetListItemStyle = css`
         margin: 0;
         font-weight: 100;
         font-size: 2.5em;
-        margin-top: -20px;
+        margin-top: -10px;
       }
     }
   }
@@ -150,6 +152,8 @@ const PriceAndButtonStyle = css`
     border-bottom: 5px solid #000000db;
     text-decoration: none;
     color: #000000db;
+
+    cursor: pointer;
   }
 
   @media only screen and (max-width: 768px) {
@@ -163,13 +167,13 @@ const PriceAndButtonStyle = css`
   }
 `;
 
-const PriceAndButton = ({ price }) => (
+const PriceAndButton = ({ price, onClick }) => (
   <div className={PriceAndButtonStyle}>
     <div>
       <p>¥{price}</p>
     </div>
     <div>
-      <a href="#">预约访问</a>
+      <a onClick={onClick}>预约访问</a>
     </div>
   </div>
 );
@@ -182,36 +186,24 @@ const nextImageDivStyle = css`
 `;
 
 const CarpetListItem = React.memo(
-  ({ carpet }) => {
-    const [activeImage, setActiveImage] = useState(0);
+  ({ onOpenInfo, carpet }) => {
     const slickRef = useRef(null);
 
-    const changeImage = delta => {
-      let final = activeImage + delta;
-
-      while (final < 0) {
-        final += carpet.fields.images.length;
-      }
-
-      final %= carpet.fields.images.length;
-      setActiveImage(final);
-    };
-    // console.log(carpet);
     return (
       <div className={CarpetListItemStyle}>
         <div className="left">
-          {/* <img src={CarpetImage} /> */}
           <div>
             <FiChevronLeft
               size={40}
               onClick={() => slickRef.current.slickPrev()}
             />
           </div>
-          <Ratio ratio={carpet.fields.images[0].normal.aspectRatio}>
+          <Ratio ratio={carpet.fields.mainImage.normal.aspectRatio}>
             <ReactSlick
               ref={slickRef}
               {...{
-                dots: true,
+                swipe: false,
+                dots: false,
                 arrows: false,
                 infinite: true,
                 speed: 500,
@@ -220,26 +212,26 @@ const CarpetListItem = React.memo(
                 lazyLoad: true
               }}
             >
-              {carpet.fields.images.map((image, index) => (
-                <div key={index}>
-                  <ReactImageMagnify
-                    {...{
-                      enlargedImagePosition: "over",
-                      smallImage: {
-                        alt: "Wristwatch by Ted Baker London",
-                        isFluidWidth: true,
-                        ...image.normal
-                      },
-                      largeImage: {
-                        ...image.zoom,
-                        width: 1800 * image.normal.aspectRatio,
-                        height: 1800
-                      },
-                      lensStyle: { backgroundColor: "rgba(0,0,0,.6)" }
-                    }}
-                  />
-                </div>
-              ))}
+              <ReactImageMagnify
+                {...{
+                  enlargedImagePosition: "over",
+                  smallImage: {
+                    alt: "Wristwatch by Ted Baker London",
+                    isFluidWidth: true,
+                    ...carpet.fields.mainImage.normal
+                  },
+                  largeImage: {
+                    ...carpet.fields.mainImage.zoom,
+                    width: 1800 * carpet.fields.mainImage.normal.aspectRatio,
+                    height: 1800
+                  },
+                  lensStyle: { backgroundColor: "rgba(0,0,0,.6)" }
+                }}
+              />
+
+              {/* {carpet.fields.images.map((image, index) => (
+                <img key={image.id} {...image.normal} />
+              ))} */}
             </ReactSlick>
           </Ratio>
 
@@ -264,7 +256,7 @@ const CarpetListItem = React.memo(
             <Detail label="尺寸" text={carpet.display_size} />
           </div>
 
-          <PriceAndButton price={carpet.price} />
+          <PriceAndButton price={carpet.price} onClick={onOpenInfo} />
         </div>
       </div>
     );
@@ -278,16 +270,16 @@ export const query = graphql`
   fragment CarpetListItemCarpetFragment on DataXlsx__Carpet {
     id
     price
+    code
     series
     series_cn
     made_in
     signature
     width
     height
-    display_size
     density
     fields {
-      images {
+      mainImage {
         normal: fluid(maxWidth: 640) {
           aspectRatio
           src

@@ -5312,6 +5312,21 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
+focus-trap-react@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/focus-trap-react/-/focus-trap-react-6.0.0.tgz#3f5a9f68447dd374d22388fb4c50018be83e74a5"
+  integrity sha512-mvEYxmP75PMx0vOqoIAmJHO/qUEvdTAdz6gLlEZyxxODnuKQdnKea2RWTYxghAPrV+ibiIq2o/GTSgQycnAjcw==
+  dependencies:
+    focus-trap "^4.0.2"
+
+focus-trap@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-4.0.2.tgz#4ee2b96547c9ea0e4252a2d4b2cca68944194663"
+  integrity sha512-HtLjfAK7Hp2qbBtLS6wEznID1mPT+48ZnP2nkHzgjpL4kroYHg0CdqJ5cTXk+UO5znAxF5fRUkhdyfgrhh8Lzw==
+  dependencies:
+    tabbable "^3.1.2"
+    xtend "^4.0.1"
+
 follow-redirects@^1.0.0:
   version "1.5.9"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.9.tgz#c9ed9d748b814a39535716e531b9196a845d89c6"
@@ -7791,7 +7806,7 @@ longest@^1.0.0:
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
   integrity sha1-MKCy2jj3N3DoKUoNIuZiXtd9AJc=
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.0, loose-envify@^1.3.1:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -8331,6 +8346,11 @@ nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+
+no-scroll@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/no-scroll/-/no-scroll-2.1.1.tgz#f37e08cb159b75a5bdbfc0a87cd9223e120e6e27"
+  integrity sha512-YTzGAJOo/B6hkodeT5SKKHpOhAzjMfkUCCXjLJwjWk2F4/InIg+HbdH9kmT7bKpleDuqLZDTRy2OdNtAj0IVyQ==
 
 node-abi@^2.2.0:
   version "2.5.0"
@@ -9733,6 +9753,15 @@ prop-types@15.6.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+prop-types@^15.5.10:
+  version "15.7.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+  integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.8.1"
+
 prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
@@ -9917,6 +9946,15 @@ rc@^1.0.1, rc@^1.1.2, rc@^1.1.6, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-aria-modal@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-aria-modal/-/react-aria-modal-4.0.0.tgz#b195e9ad6bd360b628c1853381ab4e7466d2328c"
+  integrity sha512-crdEAIHc5xXi6YqZeUgRDJN1uromSehU1XSEegVPU8/okmf1tEDwnzb6ULl+PJy4aS6sb6fUiWEdMNTLAX2HBA==
+  dependencies:
+    focus-trap-react "^6.0.0"
+    no-scroll "^2.1.1"
+    react-displace "^2.3.0"
+
 react-cursor-position@2.5.3:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/react-cursor-position/-/react-cursor-position-2.5.3.tgz#683acdeeba0e225d856fa8a26ae3b4333de7b294"
@@ -9949,6 +9987,11 @@ react-dev-utils@^4.2.1:
     sockjs-client "1.1.4"
     strip-ansi "3.0.1"
     text-table "0.2.0"
+
+react-displace@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-displace/-/react-displace-2.3.0.tgz#6915f8f2f279a29a7b58442405c26edc3d441429"
+  integrity sha512-T8g/lyn3IX8kxLO4k4vJ/oIO9G72pRTc9GYslqKsfPcN4gY5+FYR5OHxeTH1skPjVylJrveGE3OC2qCt3BuHeA==
 
 react-dom@16.7.0-alpha.2:
   version "16.7.0-alpha.2"
@@ -10021,10 +10064,25 @@ react-image-magnify@^2.7.4:
     react-cursor-position "2.5.3"
     react-required-if "1.0.1"
 
-react-lifecycles-compat@^3.0.4:
+react-is@^16.8.1:
+  version "16.8.6"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
+  integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
+
+react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-modal@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.8.1.tgz#7300f94a6f92a2e17994de0be6ccb61734464c9e"
+  integrity sha512-aLKeZM9pgXpIKVwopRHMuvqKWiBajkqisDA8UzocdCF6S4fyKVfLWmZR5G1Q0ODBxxxxf2XIwiCP8G/11GJAuw==
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.0"
+    warning "^3.0.0"
 
 react-move@^2.7.0:
   version "2.8.0"
@@ -11497,6 +11555,11 @@ symbol-observable@^1.0.3:
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
   integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
 
+tabbable@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-3.1.2.tgz#f2d16cccd01f400e38635c7181adfe0ad965a4a2"
+  integrity sha512-wjB6puVXTYO0BSFtCmWQubA/KIn7Xvajw0x0l6eJUudMG/EAiJvIUnyNX6xO4NpGrJ16lbD0eUseB9WxW0vlpQ==
+
 table@4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/table/-/table-4.0.2.tgz#a33447375391e766ad34d3486e6e2aedc84d2e36"
@@ -12590,7 +12653,7 @@ xstate@^3.1.0:
   resolved "https://registry.yarnpkg.com/xstate/-/xstate-3.3.3.tgz#64177cd4473d4c2424b3df7d2434d835404b09a9"
   integrity sha512-p0ZYDPWxZZZRAJyD3jaGO9/MYioHuxZp6sjcLhPfBZHAprl4EDrZRGDqRVH9VvK8oa6Nrbpf+U5eNmn8KFwO3g==
 
-"xtend@>=4.0.0 <4.1.0-0", xtend@^4.0.0, xtend@~4.0.0, xtend@~4.0.1:
+"xtend@>=4.0.0 <4.1.0-0", xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
   integrity sha1-pcbVMr5lbiPbgg77lDofBJmNY68=
