@@ -1,0 +1,21 @@
+<title>波斯珍宝</title>
+
+<body style="margin: 0;">
+    <div
+      style="width: 100%;
+      position: fixed;
+      bottom: 0;
+      background-color: white;
+      z-index: 10;
+      border-top: black 5px solid;
+      text-align: center;"
+    >
+      <p style="display: inline; margin: 5px;">
+        © 2020 兄弟传奇国际贸易（北京）有限公司
+      </p>
+      <a href="http://www.beian.miit.gov.cn" style="color: unset;"
+        ><p style="display: inline; margin: 5px;">
+          京ICP备15053858号
+        </p></a
+      >
+    </div>
